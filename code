@@ -1,4 +1,4 @@
-
+//code is missing Accelerometer
 
 int ultraSoundSignalPins[] = {2, 3, 4, 5}; // Front Left (2),Front Right(3), Rear Left(4), & Rear Right(5) Ultrasound signal pins
 char *pingString[] = {"Front Left ", "Front Right ", "Rear Left ", "Rear Right "}; // just something to print to indicate direction
