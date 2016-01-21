@@ -1,0 +1,77 @@
+
+
+int ultraSoundSignalPins[] = {2, 3, 4, 5}; // Front Left (2),Front Right(3), Rear Left(4), & Rear Right(5) Ultrasound signal pins
+char *pingString[] = {"Front Left ", "Front Right ", "Rear Left ", "Rear Right "}; // just something to print to indicate direction
+
+const int RPFL = 6; //  RED PIN FRONT LEFT
+const int GPFL = 7; //GREEN PIN FRONT LEFT
+
+const int RPFR = 8;  //  RED PIN FRONT RIGHT
+const int GPFR = 9;  //GREEN PIN FRONT RIGHT
+
+const int RPRL = 10;  //  RED PIN REAR LEFT
+const int GPRL = 11;  //GREEN PIN REAR LEFT
+
+const int RPRR = 12;   //  RED PIN REAR RIGHT
+const int GPRR = 13;   //GREEN PIN REAR RIGHT
+
+const int HORN = 14; // HORN RELAY
+//const int ACC = 15; // ACCELEROMETER
+
+int greenLEDs[] = {GPFL, GPFR, GPRL, GPRR};
+int redLEDs[]   = {RPFL, RPFR, RPRL, RPRR};
+void setup()
+{
+  Serial.begin(9600);
+}
+
+//Ping function
+unsigned long ping(int index)
+{
+  unsigned long echo;
+
+  pinMode(ultraSoundSignalPins[index], OUTPUT); // Switch signalpin to output
+  digitalWrite(ultraSoundSignalPins[index], LOW); // Send low pulse
+  delayMicroseconds(2); // Wait for 2 microseconds
+  digitalWrite(ultraSoundSignalPins[index], HIGH); // Send high pulse
+  delayMicroseconds(5); // Wait for 5 microseconds
+  digitalWrite(ultraSoundSignalPins[index], LOW); // Holdoff
+  pinMode(ultraSoundSignalPins[index], INPUT); // Switch signalpin to input
+  digitalWrite(ultraSoundSignalPins[index], HIGH); // Turn on pullup resistor
+  echo = pulseIn(ultraSoundSignalPins[index], HIGH); //Listen for echo
+  //return (echo / 58.138); //convert to CM
+  return (echo / 58.138) * .39; //convert to CM then to inches
+
+}
+
+void loop()
+{
+  unsigned long ultrasoundValue;
+
+  for (int i = 0; i < 4; i++) {
+    ultrasoundValue = ping(i);
+    Serial.print(pingString[i]);
+    Serial.print(ultrasoundValue);
+    //Serial.print("CM, ");
+    Serial.print("in, ");
+    delay(50);
+    int greenLED = greenLEDs[i];
+    int redLED = redLEDs[i];
+
+    if ( ultrasoundValue <= 18) // Active at -1.5 ft {
+      digitalWrite(redLED, HIGH);
+      digitalWrite(HORN, LOW); // Activates Horn
+    }
+    else {
+      digitalWrite(redLED, LOW);
+    }
+    if ( ultrasoundValue > 36) // active at +3.0 ft {
+      digitalWrite(greenLED, HIGH);
+    }
+    else {
+      digitalWrite(greenLED, LOW);
+    }
+  }
+  Serial.println();
+  delay(200);
+}
