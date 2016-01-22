@@ -1,5 +1,6 @@
 # DASU
 Defensive Alert Safety Unit
+
 The safety of motorcycles and all the included variables has been a concern for years. Meanwhile vehicles have dramatically increased their safety ratings by integrating technological advances such as using sensors that help alert motorists and stay focused. Continual advances in technology have added numerous safety systems. We intend to make a device that will use similar technology on a motorcycle in order to garner the same outcomes for motorcyclists. The Defensive Alert Safety Unit (DASU) will be our contribution to keep motorcycles as advanced as motor vehicles.
 
 DASU is an auxiliary system intended to keep motorcyclist safe and alert to the dangers around them, while keeping the motorists aware of the motorcyclist’s presence on the road. Utilizing project management practices and engineering design processes, we intend to build a fully functioning prototype.
